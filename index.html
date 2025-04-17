@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .header {
+      background-color: black;
+      color: white;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 10px 10px 0 0;
+    }
+
+    label, input {
+      display: block;
+      width: 90%;
+      margin: 10px auto;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .button-container {
+      margin-top: 20px;
+    }
+
+    button {
+      width: 45%;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .sign-out { background-color: red; }
+    .sign-in { background-color: black; }
+    button:hover { opacity: 0.8; }
+  </style>
+
+<script>
+    /**
+     * Clears input fields after a successful sign-in or sign-out.
+     */
+    function clearFields() {
+      document.getElementById("name").value = "";
+      document.getElementById("id").value = "";
+      document.getElementById("assetTag").value = "";
+    }
+
+    /**
+     * Handles sign-out, clears input fields only if successful.
+     */
+    function signOut() {
+      google.script.run.withSuccessHandler(function(response) {
+        alert(response);
+        if (response === "Sign-Out Successful!") {
+          clearFields();
+        }
+      }).recordSignOut(
+        document.getElementById("name").value,
+        document.getElementById("id").value,
+        document.getElementById("assetTag").value
+      );
+    }
+
+    /**
+     * Handles sign-in, clears input fields only if successful.
+     */
+    function signIn() {
+      google.script.run.withSuccessHandler(function(response) {
+        alert(response);
+        if (response === "Sign-In Successful!") {
+          clearFields();
+        }
+      }).recordSignIn(document.getElementById("assetTag").value);
+    }
+  </script>
+</head>
+/**
+ *  creates the structure of the body from elements above. Adds img based on hyperlink
+ */
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <img src="https://www.example.com"   
+    alt="School Logo" class="school-logo">
+    <div class="header">MP Daily Loaner Sign In/ Sign Out Form</div>
+    <label>Name:</label> <input type="text" id="name">
+    <label>ID (6-digit):</label> <input type="number" id="id">
+    <label>Asset Tag:</label> <input type="number" id="assetTag">
+    <div class="button-container">
+      <button class="sign-out" onclick="signOut()">Sign Out</button>
+      <button class="sign-in" onclick="signIn()">Sign In</button>
+    </div>
+  </div>
+</body>
+</html>
